@@ -16,4 +16,12 @@ app.use(express.static("public")) // to store static assests like images,pdfs or
 app.use(cookieParser()) // for performing crud operations on the cookies by the server on the users browser
 
 
+
+//routes import
+import userRouter from './routes/user.routes.js'
+
+//router declaration
+app.use("/users",userRouter) // whenever the user wil hit or type '/user' we will give the control to the userRouter
+
+
 export { app}
