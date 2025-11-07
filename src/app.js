@@ -21,7 +21,8 @@ app.use(cookieParser()) // for performing crud operations on the cookies by the 
 import userRouter from './routes/user.routes.js'
 
 //router declaration
-app.use("/users",userRouter) // whenever the user wil hit or type '/user' we will give the control to the userRouter
+app.use("/api/v1/users",userRouter) // whenever the user wil hit or type '/user' we will give the control to the userRouter
 
+// http://localhost:8000/api/v1/api/users/register
 
 export { app}
