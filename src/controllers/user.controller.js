@@ -6,7 +6,7 @@ import {ApiResponse} from  "../utils/ApiResponse.js"
 import jwt from "jsonwebtoken"
 import mongoose from "mongoose"
 
-const generateAccessAndRefresTokens = async (userId)=>
+const generateAccessAndRefreshTokens = async (userId)=>
 {
     try {
         const user = await User.findById(userId)
@@ -167,13 +167,13 @@ const logoutUser = asyncHandler( async (req,res)=>
 
 
 const refreshAccessToken = asyncHandler( async (req,res)=>{
-    const incomingRefreshToken = req.cookies.refreshAccessToken || req.body.refreshToken
-
-    if(!refreshAccessToken){
+    const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
+    console.log("incoming token",incomingRefreshToken)
+    if(!incomingRefreshToken){
         throw new ApiError(401,"unauthorised access token")
     }
 
-    const decodedToken = jwt.verify(refreshAccessToken,process.env.REFRESH_TOKEN_SECRET)
+    const decodedToken = jwt.verify(incomingRefreshToken,process.env.REFRESH_TOKEN_SECRET)
 
     try {
         const user = await User.findById(decodedToken?._id);
@@ -191,7 +191,7 @@ const refreshAccessToken = asyncHandler( async (req,res)=>{
             secure: true,
         }
     
-        const {accessToken,newRefreshToken} = await generateAccessAndRefresTokens(user._id)
+        const {accessToken,newRefreshToken} = await generateAccessAndRefreshTokens(user._id)
     
         return res
         .status(200)
