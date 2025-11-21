@@ -1,6 +1,6 @@
 import asyncHandler from "../utils/asyncHandler.js"
 import {ApiError} from "../utils/ApiError.js"
-import {User} from  "../models/user.model.js"
+import {User,Video} from  "../models/user.model.js"
 import {uploadOnCloudinary} from "../utils/cloudinary.js"
 import {ApiResponse} from  "../utils/ApiResponse.js"
 import jwt from "jsonwebtoken"
@@ -44,6 +44,53 @@ const getAllVideos = asyncHandler(async (req, res) => {
 const publishAVideo = asyncHandler(async (req, res) => {
     const { title, description} = req.body
     // TODO: get video, upload to cloudinary, create video
+    if (!title || !description) {
+        throw new ApiError(400, "Title and description are required");
+    }
+    const videoLocalPath = req.files?.videoFile?.[0]?.path;
+
+
+    if(!videoLocalPath){
+        throw new ApiError(400,"Video File is Missing")
+    }
+
+    const video = await uploadOnCloudinary(videoLocalPath);
+
+    if(!video){
+        throw new ApiError(400,"Error While Uploading the Video on Cloudinary")
+    }
+
+    const thumbnailLocalPath = req.files?.thumbnail?.[0]?.path;
+;
+    if(!thumbnailLocalPath){
+        throw new ApiError(400,"thumbnail is missing")
+    }
+    const thumbnail = await uploadOnCloudinary(thumbnailLocalPath)
+
+    if(!thumbnail){
+        throw new ApiError(400,"error while uploading the thumbnail")
+    }
+    let views = 0;
+    let isPublished = false
+    const videoDoc  = await Video.create({
+        videoFile: video.url,
+        thumbnail: thumbnail.url,
+        title,
+        description,
+        duration: video.duration,
+        views,
+        isPublished,
+        owner : req.user?._id
+    })
+
+    if(!videoDoc){
+        throw new ApiError(400,"something went wrong while uploading the video")
+    }
+
+    return res.status(200)
+    .json(
+        new ApiResponse(200,videoDoc ,"Video Uploaded Successfully ")
+    )
 })
 
 const getVideoById = asyncHandler(async (req, res) => {
