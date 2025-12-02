@@ -44,7 +44,20 @@ const getAllVideos = asyncHandler(async (req, res) => {
 const publishAVideo = asyncHandler(async (req, res) => {
     const { title, description} = req.body
     // TODO: get video, upload to cloudinary, create video
+    console.log("=== REQUEST DEBUG ===");
+    console.log("req.body:", req.body);
+    console.log("req.files:", req.files);
+    console.log("Type of req.body:", typeof req.body);
+    console.log("Keys in req.body:", Object.keys(req.body));
+    console.log("===================");
+    
+    console.log("Extracted title:", title);
+    console.log("Extracted description:", description);
+    
     if (!title || !description) {
+        console.log("ERROR: Title or description missing!");
+        console.log("title is:", title);
+        console.log("description is:", description);
         throw new ApiError(400, "Title and description are required");
     }
     const videoLocalPath = req.files?.videoFile?.[0]?.path;

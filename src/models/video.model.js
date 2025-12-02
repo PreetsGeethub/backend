@@ -14,12 +14,12 @@ const videoSchema = new Schema({
         type: String,
         required: true,
     },
-    descriptiom: {
+    description: {
         type: String,
         required: true,
     },
     duration: {
-        type: String,
+        type: Number,
         required: true,
     },
     views: {
