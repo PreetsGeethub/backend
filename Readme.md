@@ -1,3 +1,27 @@
-we use .use -- used for when using the  middlewares or configuration
+# VideoTube Backend Platform
 
-## middlewares - when we hit any url it will be handled by the function and it will send us the response but there can be many requests and  some can be valid and not valid so to check if you are capable of taking that url or not we need a checking  in between and thas where we need middlewares
+VideoTube is a backend system for a video and tweet sharing platform.  
+It provides RESTful APIs for user authentication and content management.
+
+This project focuses on understanding backend architecture, API design, and database integration.
+
+## Features
+- User authentication
+- CRUD operations for video and tweet data
+- Secure REST API endpoints
+- Modular backend structure
+
+## Tech Stack
+- Node.js
+- Express.js
+- MongoDB
+- Postman (API testing)
+
+## What I Learned
+- Designing RESTful APIs
+- Handling request–response flow in Express
+- Working with MongoDB schemas
+- Testing and debugging APIs using Postman
+
+## GitHub Repository
+[https://github.com/PreetsGeethub/backend]
